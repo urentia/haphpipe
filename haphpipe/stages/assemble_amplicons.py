@@ -99,7 +99,9 @@ def assemble_amplicons(
     out_assembly = os.path.join(outdir, 'amplicon_assembly.fna')
     out_summary = os.path.join(outdir, 'amplicon_summary.txt')
     out_padded = os.path.join(outdir, 'amplicon_padded.out')
+    ###--Uzma--Remove/delete file path. Allows assemble_amplicon to be run more than once?
     if os.path.exists(out_padded): os.unlink(out_padded)
+        
 
     # Temporary directory
     tempdir = sysutils.create_tempdir(
@@ -107,6 +109,7 @@ def assemble_amplicons(
     )
 
     # Create fasta file with sequence IDs only (remove decription)
+    ###--Uzma--Yields file with tuples of acc# and sequence (remove descriptions in header)
     tmp_contigs_fa = sequtils.clean_seqnames_file(contigs_fa, tempdir)
 
     # Load reference sequence(s)
@@ -116,6 +119,7 @@ def assemble_amplicons(
     amplicon_alignments = []
     amps = [gl for gl in gtfparse.gtf_parser(ref_gtf) if gl.feature == 'amplicon']
 
+    ###--Uzma--What are <>.feature, <>.chrom, and <>.attrs?
     for gl in amps:
         msg = 'Amplicon ref|%s|reg|%s\n' % (gl.chrom, gl.attrs['name'])
         sysutils.log_message(msg, quiet, logfile)
