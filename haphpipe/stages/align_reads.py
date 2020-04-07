@@ -146,7 +146,7 @@ def align_reads(
     tempdir = sysutils.create_tempdir('align_reads', None, quiet, logfile)
     
     # Copy and index initial reference
-    ###--Uzma--Unsure about this part because I don't know what initial.fasta and initial.dict is 
+    ###--Uzma--Is initial.fasta a given referene genome? Where does the user input it?
     curref = os.path.join(tempdir, 'initial.fasta')
     cmd1 = ['cp', ref_fa, curref]
     cmd2 = ['samtools', 'faidx', curref]
@@ -182,6 +182,7 @@ def align_reads(
         sysutils.command_runner(
             [cmd5,], 'align_reads:bowtie2', quiet, logfile, debug
         )
+    ###--Uzma--Does this prevent bowtie2 from running more than once? If output file exists --> error 
     except PipelineStepError as e:
         if os.path.exists(out_bt2):
             with open(out_bt2, 'r') as fh:
