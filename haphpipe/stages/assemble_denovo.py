@@ -36,6 +36,8 @@ def stageparser(parser):
                         help='Output directory')
     
     group2 = parser.add_argument_group('Assembly options')
+    ###--Uzma--Checks to see if Trinity and spades.py chell commands can be called
+    ###--Uzma--If both are available, spades is set as the default program
     try:
         sysutils.check_dependency('Trinity')
         is_trinity = True
@@ -96,6 +98,7 @@ def assemble_denovo(**kwargs):
     Returns:
 
     """
+    ###--Uzma--Not sure how this works. How can the assembler be appended to the function name?
     if kwargs['assembler'] == 'spades':
         return assemble_denovo_spades(**kwargs)
     elif kwargs['assembler'] == 'trinity':
@@ -181,6 +184,7 @@ def assemble_denovo_spades(
         [cmd1, ], 'assemble_spades', quiet, logfile, debug
     )
     shutil.copy(os.path.join(tempdir, 'contigs.fasta'), out_fa)
+    ###--Uzma--Copy file contents from tempdir to out_fa
 
     if os.path.isfile(out_fa):
         with open(out_summary, 'w') as outh:
